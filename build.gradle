@@ -7,6 +7,10 @@ plugins {
 group = 'Library'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+def springVersion = '5.2.0.RELEASE'
+def javaxAnnotationVersion = '1.3.2'
+def hibernateValidatorVersion = '6.0.13.Final'
+
 
 configurations {
     developmentOnly
@@ -23,6 +27,14 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.springframework',
+            name: 'spring-webmvc',
+            version: springVersion
+
+    compile group: 'javax.annotation',
+            name: 'javax.annotation-api',
+            version: javaxAnnotationVersion
+
     implementation 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
