@@ -26,7 +26,7 @@ public class PersonService {
         return personRepository.findById(id);
     }
 
-    public void addOrUpdatePerson(Person person, Long id) {
+    public void addPerson(Person person) {
         personRepository.save(person);
     }
 

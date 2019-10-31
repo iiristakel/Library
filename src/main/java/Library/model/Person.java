@@ -27,8 +27,8 @@ public class Person {
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "person")
     private List<Lending> lendings;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "person")
-    private List<PersonInRole> personInRoles;
+//    @OneToMany(cascade=CascadeType.ALL, mappedBy = "person")
+//    private List<PersonInRole> personInRoles;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "person")
     private List<Report> reports;

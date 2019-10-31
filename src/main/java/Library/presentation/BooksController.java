@@ -26,16 +26,12 @@ public class BooksController {
     }
 
     @PostMapping(value = CONTEXT)
-    public void addBook(@RequestParam String userName,
-                                @RequestParam String passwordHash,
-                                @RequestBody Book book){
+    public void addBook(@RequestBody Book book){
         bookService.addBook(book);
     }
 
     @DeleteMapping(value = CONTEXT + "/{id}")
-    public void deleteBookById(@RequestParam String userName,
-                               @RequestParam String passwordHash,
-                               @PathVariable Long id){
+    public void deleteBookById(@PathVariable Long id){
         bookService.deleteBookById(id);
     }
 }

@@ -23,6 +23,12 @@ public class PeopleInRolesService {
         return people;
     }
 
+    public List<PersonInRole> getAllPeopleInRoles(){
+        List<PersonInRole> peopleInRole = new ArrayList<>();
+        peopleInRolesRepository.findAll().forEach(peopleInRole::add);
+        return peopleInRole;
+    }
+
     public Person findPersonByName(String name) {
         List<PersonInRole> personInRoles = peopleInRolesRepository.findByPersonName(name);
         return personInRoles.get(0).getPerson();

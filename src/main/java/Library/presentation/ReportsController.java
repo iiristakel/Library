@@ -18,17 +18,13 @@ public class ReportsController {
     @Autowired
     private ReportService reportService;
 
-    @PostMapping(value = CONTEXT)
-    public List<Report> getReports(@RequestParam String userName,
-                                   @RequestParam String passwordHash){
-        // if person is in role "library worker"...
+    @GetMapping(value = CONTEXT)
+    public List<Report> getReports(){
         return reportService.getAllReports();
     }
 
     @DeleteMapping(value = CONTEXT + "/{id}")
-    public void deleteReportById(@RequestParam String userName,
-                                 @RequestParam String passwordHash,
-                                 @PathVariable Long id){
+    public void deleteReportById(@PathVariable Long id){
         reportService.deleteReportById(id);
     }
 }
