@@ -1,4 +1,4 @@
-package Library.infrastructure.persistence;
+package Library.infrastructure;
 
 import Library.model.Person;
 import org.springframework.data.repository.CrudRepository;

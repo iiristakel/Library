@@ -1,6 +1,6 @@
 package Library.application;
 
-import Library.infrastructure.persistence.RoleRepository;
+import Library.infrastructure.RoleRepository;
 import Library.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

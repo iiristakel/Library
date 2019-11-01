@@ -5,7 +5,7 @@ import Library.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 public class PeopleController {
@@ -14,9 +14,9 @@ public class PeopleController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping(value = CONTEXT + "/{id}")
-    public Optional<Person> findPersonById(@PathVariable Long id){
-        return personService.findPersonById(id);
+    @GetMapping(value = CONTEXT + "/search")
+    public List<Person> searchPersonByString(@RequestParam String search){
+        return personService.searchPersonByString(search.toLowerCase());
     }
 
     @PostMapping(value = CONTEXT)

@@ -1,42 +1,54 @@
 package Library.application;
 
-import Library.infrastructure.persistence.LendingRepository;
+import Library.infrastructure.BookRepository;
+import Library.infrastructure.LendingRepository;
+import Library.infrastructure.PersonRepository;
 import Library.model.Lending;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LendingService {
     @Autowired
     private LendingRepository lendingRepository;
 
-    public List<Lending> getAllLendings() {
-        List<Lending> lendings = new ArrayList<>();
-        lendingRepository.findAll().forEach(lendings::add);
-        return lendings;
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    public List<Lending> getAllLateLendings() {
+        List<Lending> lateLendings = new ArrayList<>();
+        lendingRepository.findAll().forEach(lending -> {
+            int daysOver = lending.getDaysOver();
+            if (daysOver > 0){
+                lateLendings.add(lending);
+            }
+        });
+        return lateLendings;
     }
 
-    public Optional<Lending> findLendingById(Long id) {
-        return lendingRepository.findById(id);
+    public Lending addLending(Lending lending) {
+        lending.setLendingDays();
+        lending.setReturnDate();
+        lending.setDaysOver();
+        lending.setBook(bookRepository.findById(lending.getBook().getId()).get());
+        lending.setPerson(personRepository.findById(lending.getPerson().getId()).get());
+
+        return lendingRepository.save(lending);
     }
 
-    public List<Lending> findLendingsByBook(String title) {
-        return lendingRepository.findByBookTitle(title);
-    }
+    public Lending updateLending(Lending lending) {
+        lending.setLendingDays();
+        lending.setReturnDate();
+        lending.setDaysOver();
+        lending.setBook(bookRepository.findById(lending.getBook().getId()).get());
+        lending.setPerson(personRepository.findById(lending.getPerson().getId()).get());
 
-    public List<Lending> findLendingsByPerson(String name) {
-        return lendingRepository.findByPersonName(name);
-    }
-
-    public void addLending(Lending lending) {
-        lendingRepository.save(lending);
-    }
-
-    public void deleteLending(Long id) {
-        lendingRepository.deleteById(id);
+        return lendingRepository.save(lending);
     }
 }

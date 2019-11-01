@@ -1,13 +1,12 @@
 package Library.application;
 
-import Library.infrastructure.persistence.BookRepository;
+import Library.infrastructure.BookRepository;
 import Library.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -21,8 +20,17 @@ public class BookService {
         return books;
     }
 
-    public Optional<Book> findBookById(Long id) {
-        return bookRepository.findById(id);
+        public List<Book> searchBookByString(String search) {
+            List<Book> books = new ArrayList<>();
+            bookRepository.findAll().forEach(
+                    book -> {
+                        if (book.getTitle().toLowerCase().contains(search) ||
+                        book.getAuthor().toLowerCase().contains(search)){
+                            books.add(book);
+                        }
+                    }
+            );
+            return books;
     }
 
     public void addBook(Book book) {

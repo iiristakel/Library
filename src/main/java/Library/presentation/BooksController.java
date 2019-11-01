@@ -5,7 +5,6 @@ import Library.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class BooksController {
@@ -20,9 +19,9 @@ public class BooksController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping(value = CONTEXT + "/{id}")
-    public Optional<Book> findBookById(@PathVariable Long id){
-        return bookService.findBookById(id);
+    @GetMapping(value = CONTEXT + "/search")
+    public List<Book> searchBookByString(@RequestParam String search){
+        return bookService.searchBookByString(search.toLowerCase());
     }
 
     @PostMapping(value = CONTEXT)

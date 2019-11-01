@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +19,4 @@ public class Role {
 
     @Column
     private String title;
-
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "role")
-    private List<PersonInRole> personsInRole;
 }

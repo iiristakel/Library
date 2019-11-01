@@ -1,4 +1,4 @@
-package Library.infrastructure.persistence;
+package Library.infrastructure;
 
 import Library.model.Role;
 import org.springframework.data.repository.CrudRepository;

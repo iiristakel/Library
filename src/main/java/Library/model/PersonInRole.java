@@ -18,7 +18,7 @@ public class PersonInRole {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Person person;
 
     @ManyToOne
