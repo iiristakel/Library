@@ -25,5 +25,10 @@ public class PersonInRole {
     private Role role;
 
     @Column
-    private LocalDate startDate = LocalDate.now();
+    private LocalDate startDate;
+
+
+    public void setStartDate() {
+        this.startDate  = LocalDate.now();
+    }
 }

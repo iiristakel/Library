@@ -1,7 +1,9 @@
 package Library.application;
 
+import Library.infrastructure.PeopleInRolesRepository;
 import Library.infrastructure.PersonRepository;
 import Library.model.Person;
+import Library.model.PersonInRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.List;
 public class PersonService {
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PeopleInRolesRepository peopleInRolesRepository;
 
     public List<Person> searchPersonByString(String search) {
         List<Person> people = new ArrayList<>();
@@ -24,6 +29,18 @@ public class PersonService {
                 }
         );
         return people;
+    }
+
+    public List<PersonInRole> findPeopleByRole(String role) {
+        List<PersonInRole> peopleInRole = new ArrayList<>();
+        peopleInRolesRepository.findAll().forEach(
+                personInRole -> {
+                    if (personInRole.getRole().getTitle().toLowerCase().equals(role)) {
+                        peopleInRole.add(personInRole);
+                    }
+                }
+        );
+        return peopleInRole;
     }
 
     public void addPerson(Person person) {

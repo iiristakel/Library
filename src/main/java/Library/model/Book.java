@@ -33,5 +33,9 @@ public class Book {
 
     @Column(name = "INSERTINGDATE")
     @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDate insertingDate = LocalDate.now();
+    private LocalDate insertingDate;
+
+    public void setInsertingDate() {
+        this.insertingDate = LocalDate.now();
+    }
 }

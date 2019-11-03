@@ -21,34 +21,30 @@ public class LendingService {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<Lending> getAllLateLendings() {
+    public List<Lending> getAllOverdueLendings() {
         List<Lending> lateLendings = new ArrayList<>();
         lendingRepository.findAll().forEach(lending -> {
             int daysOver = lending.getDaysOver();
-            if (daysOver > 0){
+            if (daysOver > 0) {
                 lateLendings.add(lending);
             }
         });
         return lateLendings;
     }
 
-    public Lending addLending(Lending lending) {
-        lending.setLendingDays();
+    public Lending addOrUpdateLending(Lending lending) {
+        if (lending.getLendingDays() == 0) {
+            lending.setLendingDays();
+        }
+
         lending.setReturnDate();
         lending.setDaysOver();
-        lending.setBook(bookRepository.findById(lending.getBook().getId()).get());
-        lending.setPerson(personRepository.findById(lending.getPerson().getId()).get());
-
-        return lendingRepository.save(lending);
-    }
-
-    public Lending updateLending(Lending lending) {
-        lending.setLendingDays();
-        lending.setReturnDate();
-        lending.setDaysOver();
-        lending.setBook(bookRepository.findById(lending.getBook().getId()).get());
-        lending.setPerson(personRepository.findById(lending.getPerson().getId()).get());
-
-        return lendingRepository.save(lending);
+        if (bookRepository.findById(lending.getBook().getId()).isPresent() &&
+                personRepository.findById(lending.getPerson().getId()).isPresent()) {
+            lending.setBook(bookRepository.findById(lending.getBook().getId()).get());
+            lending.setPerson(personRepository.findById(lending.getPerson().getId()).get());
+            return lendingRepository.save(lending);
+        }
+        throw new RuntimeException("Book's or Person's id is not set!");
     }
 }

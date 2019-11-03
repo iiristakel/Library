@@ -11,6 +11,7 @@ public class PeopleInRolesService {
     private PeopleInRolesRepository peopleInRolesRepository;
 
     public void addPersonInRole(PersonInRole personInRole) {
+        personInRole.setStartDate();
         peopleInRolesRepository.save(personInRole);
     }
 }
