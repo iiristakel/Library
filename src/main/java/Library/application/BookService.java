@@ -1,36 +1,24 @@
 package Library.application;
 
-import Library.infrastructure.BookRepository;
-import Library.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
+import Library.infrastructure.BookRepository;
+import Library.model.Book;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 @Service
+@RequiredArgsConstructor
 public class BookService {
 
-    @Autowired
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public List<Book> getAllBooks() {
-        List<Book> books = new ArrayList<>();
-        bookRepository.findAll().forEach(books::add);
-        return books;
+        return bookRepository.findAll();
     }
 
-        public List<Book> searchBookByString(String search) {
-            List<Book> books = new ArrayList<>();
-            bookRepository.findAll().forEach(
-                    book -> {
-                        if (book.getTitle().toLowerCase().contains(search) ||
-                        book.getAuthor().toLowerCase().contains(search)){
-                            books.add(book);
-                        }
-                    }
-            );
-            return books;
+    public List<Book> searchBookByString(String search) {
+        return bookRepository.findAllByTitleContainingOrAuthorContainingAllIgnoreCase(search, search);
     }
 
     public void addBook(Book book) {
