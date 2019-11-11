@@ -1,41 +1,48 @@
 package Library.model;
 
+import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "BOOK")
+@EntityListeners(AuditingEntityListener.class)
 public class Book {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "TITLE")
+    @NotBlank
     private String title;
 
-    @Column(name = "AUTHOR")
+    @NotBlank
     private String author;
 
-    @Column(name = "AMOUNT")
+    @Min(0)
     private int amount;
 
-    @Column(name = "SECTIONINLIBRARY")
+    @NotBlank
     private String sectionInLibrary;
 
-    @Column(name = "INSERTINGDATE")
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @CreatedDate
     private LocalDate insertingDate;
 
-    public void setInsertingDate() {
-        this.insertingDate = LocalDate.now();
-    }
 }
