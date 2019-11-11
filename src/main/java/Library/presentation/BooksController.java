@@ -1,62 +1,52 @@
 package Library.presentation;
 
+import java.util.List;
+
 import Library.application.BookService;
 import Library.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class BooksController {
 
-    private final String CONTEXT = "/api/books";
-    private final Logger LOGGER = Logger.getLogger(BooksController.class.getName());
-    private FileHandler filehandler;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BooksController.class);
 
-    public BooksController(){
-        try {
-            filehandler = new FileHandler("BookServiceLog.log", 1024 * 8, 1, true);
-            LOGGER.addHandler(filehandler);
-            SimpleFormatter formatter = new SimpleFormatter();
-            filehandler.setFormatter(formatter);
-            LOGGER.setLevel(Level.FINE);
-            filehandler.setLevel(Level.INFO);
-        }catch(IOException io){
-            System.out.println("Could not set logging.");
-        }
-    }
+    private static final String PATH = "/api/books";
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @GetMapping(value = CONTEXT)
-    public List<Book> getBooks(){
-
+    @GetMapping(PATH)
+    public List<Book> getBooks() {
         LOGGER.info("Returning list of Books.");
         return bookService.getAllBooks();
     }
 
-    @GetMapping(value = CONTEXT + "/search")
-    public List<Book> searchBookByString(@RequestParam String search){
-        LOGGER.info("Searching books by string: \"" + search + "\".");
-        return bookService.searchBookByString(search.toLowerCase());
+    @GetMapping(PATH + "/search")
+    public List<Book> searchBookByString(@RequestParam String search) {
+        LOGGER.info("Searching books by string: {}", search);
+        return bookService.searchBookByString(search);
     }
 
-    @PostMapping(value = CONTEXT)
-    public void addBook(@RequestBody Book book){
-        LOGGER.info("Adding new book: " + book);
+    @PostMapping(PATH)
+    // FIXME: should use dto instead of Book entity class
+    public void addBook(@RequestBody Book book) {
+        LOGGER.info("Adding new book: {}", book);
         bookService.addBook(book);
     }
 
-    @DeleteMapping(value = CONTEXT + "/{id}")
-    public void deleteBookById(@PathVariable Long id){
-        LOGGER.info("Deleting book with id: " + id);
+    @DeleteMapping(PATH + "/{id:\\d}")
+    public void deleteBookById(@PathVariable Long id) {
+        LOGGER.info("Deleting book with id: {}", id);
         bookService.deleteBookById(id);
     }
 }
