@@ -1,0 +1,11 @@
+POST http://localhost:8080/api/books
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "new title new",
+  "author": "new author",
+  "sectionInLibrary": "new author",
+  "insertingDate": "1999-01-01"
+}
+###
