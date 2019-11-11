@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <property name="MAIN_PATTERN"
+              value="%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX, UTC} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${MAIN_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/library.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/library.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>0</maxHistory>
+            <totalSizeCap>8MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${MAIN_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="Library" level="INFO">
+        <appender-ref ref="FILE_APPENDER"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE_APPENDER"/>
+    </root>
+</configuration>
